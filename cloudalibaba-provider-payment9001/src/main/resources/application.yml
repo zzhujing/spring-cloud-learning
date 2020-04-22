@@ -1,0 +1,33 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: nacos-provider-payment
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+      filter:
+        url-patterns: /**
+      eager: true
+      datasource:
+        flow:
+          nacos:
+            serverAddr: localhost:8848
+            dataId: ${spring.application.name}-flow-rule
+            dataType: json #默认
+            ruleType: flow #参考RuleType
+  mvc:
+    servlet:
+      load-on-startup: 1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

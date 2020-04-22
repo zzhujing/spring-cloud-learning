@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: seata-order
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    alibaba:
+      seata:
+        tx-service-group: test_group
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: hujing19960825
+    url: jdbc:mysql://localhost:3307/seata_order?characterEncoding=UTF-8&useSSL=false&serverTimeZone=Hongkong&autoReconnect=true&allowMultiQueries=true
+    username: hujing
+server:
+  port: 10004
+logging:
+  level:
+    io.seata: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

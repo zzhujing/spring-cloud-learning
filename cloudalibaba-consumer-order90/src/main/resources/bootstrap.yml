@@ -1,0 +1,15 @@
+server:
+  port: 90
+spring:
+  application:
+    name: nacos-consumer-payment
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

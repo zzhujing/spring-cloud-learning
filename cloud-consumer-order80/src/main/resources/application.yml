@@ -1,0 +1,56 @@
+server:
+  port: 80
+spring:
+  application:
+    name: cloud-consumer-order
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+# 配置ribbon
+#payment8004:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+
+# Zk 注册中心配置
+#  cloud:
+#    zookeeper:
+#      connect-string: localhost:2181
+
+
+# eureka 注册中心配置
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+#    register-with-eureka: true #注册自己
+#    fetch-registry: true #拉取服务信息，集群必须配置才能配置ribbon实现负载均衡
+#  instance:
+#    instance-id: order
+#    prefer-ip-address: true
+feign:
+  client:
+    config:
+      default:
+        logger-level: full
+        connect-timeout: 5000
+        read-timeout: 5000
+  hystrix:
+    enabled: true
+#ribbon:
+#  ReadTimeout: 5000
+#  ConnectTimeout: 5000
+logging:
+  level:
+    cloud.study: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

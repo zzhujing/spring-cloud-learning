@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: cloud-provider-payment
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+    config:
+      label: master
+      profile: prod
+      name: config
+      uri: http://localhost:8080
+#  cloud:
+#    zookeeper:
+#      connect-string: localhost:2181
+server:
+  port: 8004
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

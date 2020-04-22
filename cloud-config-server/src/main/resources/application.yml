@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+    config:
+      server:
+        git:
+          uri: https://github.com/zzhujing/cloud-config-server.git
+          search-paths:
+            - cloud-config-server
+          username: zzhujing
+          password: hujing19960825
+      label: master
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['bus-refresh']

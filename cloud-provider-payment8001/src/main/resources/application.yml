@@ -1,0 +1,32 @@
+server:
+  port: 8001
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: hujing19960825
+    url: jdbc:mysql://localhost:3307/spring-cloud-learning?characterEncoding=UTF-8&useSSL=false&serverTimeZone=Hongkong&autoReconnect=true&allowMultiQueries=true
+    username: hujing
+    type: com.zaxxer.hikari.HikariDataSource
+  application:
+    name: cloud-provider-payment
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+#    register-with-eureka: true #注册自己
+#    fetch-registry: true #拉取服务信息，集群必须配置才能配置ribbon实现负载均衡
+#  instance:
+#    prefer-ip-address: true #使用ip注册
+#    lease-expiration-duration-in-seconds: 2 #最短超时周期，超过2s则超时
+#    lease-renewal-interval-in-seconds: 1 #最短心跳发送周期

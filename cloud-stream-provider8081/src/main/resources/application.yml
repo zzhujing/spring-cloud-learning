@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: cloud-stream-provider
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+    stream:
+      binders:
+        defaultRabbit: #自定义Binder名称
+          type: rabbit
+          environment:
+            spring: #rabbitmq环境配置
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      bindings:
+        output: #自定义binding名称，消费者output
+          destination: customExchange #raibbitmq为Exchange名称
+          content-type: application/json
+          binder: defaultRabbit #定义自定义Binder名称
+  zipkin:
+    base-url: http://localhost:9411/ # zipkin-server 地址
+  sleuth:
+    sampler:
+      probability: 1 #采集样本所占比例 0~1
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

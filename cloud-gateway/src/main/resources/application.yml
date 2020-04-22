@@ -1,0 +1,47 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启使用服务名进行路由
+      routes:
+        - id: cloud-provider-payment
+          #          uri: http://localhost:8001
+          uri: lb://cloud-provider-payment #使用服务名进行动态路由匹配
+          predicates: #参考RoutePredicateFactory的实现类
+            - Path=/payment/echo/{segment},/payment/**
+              #              支持的path映射,其中segment可以在GatewayFilter中通过ServerWebExchangeUtils#getUriTemplateVariables()获取
+              - Header=token,\d+ #下游服务必须要有对应的header
+              - Cookie=MyCookieName,MyCookieValue #下游必须有cookie
+              - Method=GET,POST #下游支持的方法
+              - Query=requestParamName #下游请求参数
+              - RemoteAddr=192.168.1.1/24 #规定下游的ip地址范围
+              - Weight=group1,8 #访问权重，group为组名，后面为权重
+          filters:
+            - AddRequestHeader=customRequestHeader,header-{segment} #这里segment可以获取上面Path断言中传递的uriTemplatesVariables
+            - AddRequestParameter=customRequestParameter,xxx  #请求参数添加
+            - AddResponseHeader=xxx,yyy #添加响应头
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin #在网关和下游都添加有CORS跨域请求头的时候，然后重复的请求头
+            - name: CircuitBreaker #
+              args:
+                name: fallback
+                fallbackUri: forward:/payment/fallback #默认fallback地址
+    loadbalancer:
+      ribbon:
+        enabled: false
+hystrix:
+  command:
+    fallback:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+
